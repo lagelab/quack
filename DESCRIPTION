@@ -6,8 +6,8 @@ Authors@R: c(
   person("April", "Kim", email = "aprilkim@broadinstitute.org", role = "cre"),
   person("Taibo", "Li", email = "taiboli@broadinstitute.org", role = "aut"),
   person("John", "Mercer", role = "aut"))
-Depends: R (>= 3.3.2)
-Imports: 
+Depends: 
+  R (>= 3.3.2),
   boot,
   changepoint,
   data.table,
