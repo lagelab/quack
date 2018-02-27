@@ -8,22 +8,22 @@ Authors@R: c(
   person("John", "Mercer", role = "aut"))
 Depends: 
   R (>= 3.3.2),
-  boot,
-  changepoint,
-  data.table,
-  doMC,
-  doParallel,
-  dplyr,
-  entropy,
-  hash,
-  igraph,
-  lattice,
-  MASS,
-  mclust,
-  poweRlaw,
-  pROC,
-  randomForest,
-  stringr
+  boot (= 1.3-20),
+  changepoint (= 2.2.2),
+  data.table (= 1.10.4-3),
+  doMC (= 1.3.5),
+  doParallel (= 1.0.11),
+  dplyr (= 0.7.4),
+  entropy (= 1.2.1),
+  hash (= 2.2.6),
+  igraph (= 1.1.2),
+  lattice (= 0.20-35),
+  MASS (= 7.3-48),
+  mclust (= 5.4),
+  poweRlaw (= 0.70.1),
+  pROC (= 1.10.0),
+  randomForest (= 4.6-12),
+  stringr (= 1.2.0)
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
