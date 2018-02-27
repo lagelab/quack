@@ -1,13 +1,13 @@
 #' Train model function
 #' 
 #' Using user uploaded network and known pathways, train model using Quack algorithm.
-#' @param trained_network_file,pathway_file,save_location Characters referring to the location and file name of user's network modeling file, path and name of pathway files, which can be found in data/ or user uploaded, and location to save output.
+#' @param usr_modeling_file,usr_pathway_file,usr_output_loc Characters referring to the location and file name of user's network modeling file, path and name of pathway files, which can be found in data/ or user uploaded, and location to save output.
 #' @return rdata file, csv and txt file
 #' @import hash igraph randomForest pROC doMC dplyr boot stringr scales lattice MASS mclust changepoint data.table entropy poweRlaw doParallel
 #' @export
 #' @examples 
-#' trainModel("data/InWeb3.RData", "data/stringent835Pathways.RData", "~")
-trainModel <- function(trained_network_file, pathway_file, save_location){
+#' trainModel("data/InWeb3.RData", "data/stringent835Pathways.RData", "data/")
+trainModel <- function(usr_modeling_file, usr_pathway_file, usr_output_loc){
   
   ### Register multicore parallel backend 
   registerDoMC(4)
@@ -15,10 +15,10 @@ trainModel <- function(trained_network_file, pathway_file, save_location){
   cl <- makeCluster(4)
   registerDoParallel(cl)
   
-  load(file=(trained_network_file))
-  load(pathway_file)
+  load(file=(usr_modeling_file))
+  load(usr_pathway_file)
   
-  pathwayName <- strsplit(basename(pathway_file), "\\.")[[1]][1]
+  pathwayName <- strsplit(basename(usr_pathway_file), "\\.")[[1]][1]
   pathwayClassKey <- "General"
   
   quackVersion <- "Quackv1.3"
@@ -71,7 +71,7 @@ trainModel <- function(trained_network_file, pathway_file, save_location){
     modelingFile <- modelingAndConnInfoFile[[1]]
     connectivityInfoFile <- modelingAndConnInfoFile[[2]]
     
-    write.csv(connectivityInfoFile, file=paste(save_location, modelSpecs,".csv",sep=""))
+    write.csv(connectivityInfoFile, file=paste(usr_output_loc, modelSpecs,".csv",sep=""))
     
     ### Training / holdouts
     modelingFile$modFileKey <- seq(1:nrow(modelingFile))
@@ -81,7 +81,7 @@ trainModel <- function(trained_network_file, pathway_file, save_location){
     holdout.keys <- modelingFile.holdout$modFileKey
     modelingFile$isHoldout <- ifelse(modelingFile$modFileKey %in% holdout.keys, 1, 0)
     
-    save(modelingFile.holdout,file = paste(save_location, "Holdout_",modelSpecs,".RData",sep=""),ascii=TRUE)
+    save(modelingFile.holdout,file = paste(usr_output_loc, "Holdout_",modelSpecs,".RData",sep=""),ascii=TRUE)
     
     ModelResults <- GetQuackClassifier(response      = modelingFile.training[,c("isInPathway")],
                                        predictors    = modelingFile.training[,predictorList], 
@@ -91,14 +91,14 @@ trainModel <- function(trained_network_file, pathway_file, save_location){
                                        saveResults   = TRUE,
                                        #varImportDir  = SaveVariableImportanceHere,
                                        #geneModDir    = SaveQuackGeneModelHere,
-                                       varImportDir  = save_location,
-                                       geneModDir    = save_location)
+                                       varImportDir  = usr_output_loc,
+                                       geneModDir    = usr_output_loc)
     
     QuackGeneModel <- ModelResults[[1]]
     remove(ModelResults)
     
-    save(QuackGeneModel, paste0(save_location, modelSpecs, '.RData', sep=""), ascii = T)
-    #save(QuackGeneModel, paste(save_location, modelSpecs, '.RData', sep=""), ascii = T)
+    save(QuackGeneModel, paste0(usr_output_loc, modelSpecs, '.RData', sep=""), ascii = T)
+    #save(QuackGeneModel, paste(usr_output_loc, modelSpecs, '.RData', sep=""), ascii = T)
     save(QuackGeneModel, file="R/sysdata.rda")
     
     if(monitor) print("--Completed QuackGeneModel")
@@ -116,7 +116,7 @@ trainModel <- function(trained_network_file, pathway_file, save_location){
                           bootSampleSize <- 250,
                           samplePerc <- 0.7)
     
-    saveAUCCI(aucCI, save_location, paste(modelSpecs,"-previous.txt",sep=""))
+    saveAUCCI(aucCI, usr_output_loc, paste(modelSpecs,"-previous.txt",sep=""))
     
     remove(QuackGeneModel)
     
@@ -124,13 +124,13 @@ trainModel <- function(trained_network_file, pathway_file, save_location){
     auc.ci.cu <- ci.auc(holdoutsForAUCs[[2]][,2],holdoutsForAUCs[[2]][,1],levels = c(0,1), direction="<")
     auc.ci.cuv <- ci.auc(holdoutsForAUCs[[3]][,2],holdoutsForAUCs[[3]][,1],levels = c(0,1), direction="<")
     
-    saveAUCVariantsToCSV(auc.ci.c,auc.ci.cu,auc.ci.cuv, save_location, paste("AUC-CIs-",modelSpecs,".csv",sep=""))
+    saveAUCVariantsToCSV(auc.ci.c,auc.ci.cu,auc.ci.cuv, usr_output_loc, paste("AUC-CIs-",modelSpecs,".csv",sep=""))
     
-    save(modelingFile,file = paste(save_location, "ModelingFile_", modelSpecs, ".RData", sep=""), ascii=TRUE)
+    save(modelingFile,file = paste(usr_output_loc, "ModelingFile_", modelSpecs, ".RData", sep=""), ascii=TRUE)
     
     remove(modelingFile)
     
-    sink(paste(save_location,modelSpecs, "-DONE",sep=""))
+    sink(paste(usr_output_loc,modelSpecs, "-DONE",sep=""))
     cat(":-)")
     sink()
     

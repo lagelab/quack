@@ -1,25 +1,25 @@
 #' Quack prediction function
 #' 
 #' Using the trained model from user uploaded network, using seed genes, predict genes that should be in a network.
-#' @param trained_network_name Characters of user's network name, used in make graphs and train model functions.
-#' @param seed_file Characters of path and name of user's seed file containing list of genes.
+#' @param usr_network_name Characters of user's network name, used in make graphs and train model functions.
+#' @param usr_seed_file Characters of path and name of user's seed file containing list of genes.
 #' @param trained_network_file Characters of path and name to network file from make graphs function.
 #' @param quack_gene_model Characters of path and name to quack gene model created from train model function.
-#' @param save_location Characters of location to save output file.
-#' @param pathway_file Characters of name of pathway files, which can be found in data/ or user uploaded.
+#' @param usr_output_loc Characters of location to save output file.
+#' @param usr_pathway_file Characters of name of pathway files, which can be found in data/ or user uploaded.
 #' @return text file
 #' @import hash igraph randomForest
 #' @export
 #' @examples 
 #' quackPrediction("InWeb3", "data/SandersGenes.txt", "data/InWeb3.RData", "QuackGeneModel_Quackv1.3-InWeb3-General853StringentPathways.RData", "data/", "data/stringent853Pathways.RData")
-quackPrediction <- function(trained_network_name, seed_file, trained_network_file, quack_gene_model, save_location, pathway_file){
+quackPrediction <- function(usr_network_name, usr_seed_file, trained_network_file, quack_gene_model, usr_output_loc, usr_pathway_file){
   
   ### Load user's trained network file (from makeGraphs.R)
   load(file=(trained_network_file))
   ### Stored in quack::data() OR upload user's pathway file
-  load(pathway_file)
+  load(usr_pathway_file)
   
-  pathwayName <- strsplit(basename(pathway_file), "\\.")[[1]][1]
+  pathwayName <- strsplit(basename(usr_pathway_file), "\\.")[[1]][1]
   pathwayClassKey <- "General"
   
   quackVersion <- "Quackv1.3"
@@ -27,13 +27,13 @@ quackPrediction <- function(trained_network_name, seed_file, trained_network_fil
                      "giBetweenness","giLCC","giDegreeInG","giWDegreeInG","giECInG","giClosenessInG","giBetweenessInG","giLCCInG")
   
   ### Change  network name with user input
-  networkKey <- trained_network_name
+  networkKey <- usr_network_name
   modelSpecs <- paste(quackVersion, "-",networkKey,"-",pathwayClassKey,pathwayName,sep="")
   
   ### Input user's seed gene lists
-  seed <- scan(seed_file, what = character())
+  seed <- scan(usr_seed_file, what = character())
   ### Set seed.name with user input
-  seed.name <- strsplit(basename(seed_file), "\\.")[[1]][1]
+  seed.name <- strsplit(basename(usr_seed_file), "\\.")[[1]][1]
   
   network.name <- networkKey
   
@@ -292,7 +292,7 @@ quackPrediction <- function(trained_network_name, seed_file, trained_network_fil
   score.file <- score.file[,c('Gene', 'QuackP')]
 
   ### Save quack predicted genen list as text file
-  write.table(score.file, file = paste0(save_location, seed.name, networkKey, 'QuackPredictions.txt'),
+  write.table(score.file, file = paste0(usr_output_loc, seed.name, networkKey, 'QuackPredictions.txt'),
               sep = '\t', row.names = F, col.names = T, quote = F)
   
 }
