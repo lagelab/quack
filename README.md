@@ -10,6 +10,7 @@ Quack is a machine learning algorithm to predict biological pathway relationship
 Quack requires R and RStudio on either Mac or Windows. For best results, use R version 3.3.2.<br>
 R is available at https://www.r-project.org/<br>
 RStudio is available at https://www.rstudio.com/products/rstudio/download/<br>
+No additional hardware is required.
 
 
 ## Installation ##
