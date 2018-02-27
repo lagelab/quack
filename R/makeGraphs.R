@@ -6,7 +6,7 @@
 #' @import hash igraph 
 #' @export
 #' @examples 
-#' makeGraphc("data/InWeb3.txt", "InWeb3", "data/")
+#' makeGraphc("data/InWeb3_network.txt", "InWeb3", "data/")
 makeGraphs <- function(usr_network_file, usr_network_name, usr_save_loc) {
   
   file.name <- usr_network_file
