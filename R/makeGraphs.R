@@ -1,7 +1,7 @@
 #' Make your graphs function
 #' 
 #' This function allows user to upload network file and create graph function compatible with Quack.
-#' @param usr_network_file,usr_network_name,usr_save_loc Characters referring to the location and file name of user's network file, name of network, and location to save output.
+#' @param network_file,trained_network_name,save_location Characters referring to the location and file name of user's network file, name of network, and location to save output.
 #' @return rdata file
 #' @import hash igraph 
 #' @export
@@ -9,8 +9,8 @@
 #' makeGraphc("data/InWeb3_network.txt", "InWeb3", "~")
 makeGraphs <- function(network_file, trained_network_name, save_location) {
   
-  file.name <- usr_network_file
-  network.name <- usr_network_name
+  file.name <- network_file
+  network.name <- trained_network_name
   con <- file(file.name, 'r') 
   InWebFile <- readLines(con)
   close(con)
@@ -118,5 +118,5 @@ makeGraphs <- function(network_file, trained_network_name, save_location) {
   
   usrNetworkGraphs <- hash()
   .set(usrNetworkGraphs,network.name, Network)
-  save(usrNetworkGraphs, file = paste(usr_save_loc, network.name, ".RData",sep=""))
+  save(usrNetworkGraphs, file = paste(save_location, network.name, ".RData",sep=""))
 }
