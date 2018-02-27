@@ -7,7 +7,8 @@ Authors@R: c(
   person("Taibo", "Li", email = "taiboli@broadinstitute.org", role = "aut"),
   person("John", "Mercer", role = "aut"))
 Depends: R (>= 3.3.2)
-Imports: boot,
+Imports: 
+  boot,
   changepoint,
   data.table,
   doMC,
