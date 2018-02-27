@@ -12,7 +12,7 @@
 #' @export
 #' @examples 
 #' quackPrediction("InWeb3", "data/SandersGenes.txt", "data/InWeb3.RData", "QuackGeneModel_Quackv1.3-InWeb3-General853StringentPathways.RData", "data/", "data/stringent853Pathways.RData")
-quackPrediction <- function(usr_network_name, usr_seed_file, trained_network_file, quack_gene_model, usr_output_loc, usr_pathway_file){
+quackPrediction <- function(trained_network_name, seed_file, trained_network_file, quack_gene_model, save_location, pathway_file){
   
   ### Load user's trained network file (from makeGraphs.R)
   load(file=(trained_network_file))

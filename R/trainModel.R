@@ -6,8 +6,8 @@
 #' @import hash igraph randomForest pROC doMC dplyr boot stringr scales lattice MASS mclust changepoint data.table entropy poweRlaw doParallel
 #' @export
 #' @examples 
-#' trainModel("data/InWeb3.RData", "data/stringent835Pathways.RData", "data/")
-trainModel <- function(usr_modeling_file, usr_pathway_file, usr_output_loc){
+#' trainModel("data/InWeb3.RData", "data/stringent835Pathways.RData", "~")
+trainModel <- function(trained_network_file, pathway_file, save_location){
   
   ### Register multicore parallel backend 
   registerDoMC(4)
