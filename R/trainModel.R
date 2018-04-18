@@ -97,7 +97,7 @@ trainModel <- function(usr_modeling_file, usr_pathway_file, usr_output_loc){
     QuackGeneModel <- ModelResults[[1]]
     remove(ModelResults)
     
-    save(QuackGeneModel, paste0(usr_output_loc, modelSpecs, '.RData', sep=""), ascii = T)
+    save(QuackGeneModel, file = paste(usr_output_loc, 'QuackGeneModel_', modelSpecs, '.RData',sep=""), ascii=TRUE)
     #save(QuackGeneModel, paste(usr_output_loc, modelSpecs, '.RData', sep=""), ascii = T)
     save(QuackGeneModel, file="R/sysdata.rda")
     
