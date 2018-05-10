@@ -4,10 +4,10 @@
 \alias{trainModel}
 \title{Train model function}
 \usage{
-trainModel(usr_modeling_file, usr_pathway_file, usr_output_loc)
+trainModel(usr_modeling_file, usr_pathway_file, usr_output_loc, num_cores = 4)
 }
 \arguments{
-\item{usr_modeling_file, usr_pathway_file, usr_output_loc}{Characters referring to the location and file name of user's network modeling file, path and name of pathway files, which can be found in data/ or user uploaded, and location to save output.}
+\item{usr_modeling_file, usr_pathway_file, usr_output_loc, num_cores}{Characters referring to the location and file name of user's network modeling file, path and name of pathway files, which can be found in data/ or user uploaded, and location to save output, number of cores to use[default=4].}
 }
 \value{
 rdata file, csv and txt file
@@ -16,5 +16,5 @@ rdata file, csv and txt file
 Using user uploaded network and known pathways, train model using Quack algorithm.
 }
 \examples{
-trainModel("data/InWeb3.RData", "data/stringent835Pathways.RData", "data/")
+trainModel("data/InWeb3.RData", "data/stringent853Pathways.RData", "data/out/", num_cores=8)
 }
