@@ -1,4 +1,4 @@
-# Quack
+# Quack (improved performance with parallel computing)
 
 ## Overview ##
 Quack is a machine learning algorithm to predict biological pathway relationships based on functional genomics networks:
@@ -16,7 +16,7 @@ No additional hardware is required.
 ## Installation ##
 ```r
 install.packages("devtools")
-devtools::install_github("lagelab/quack")
+devtools::install_github("lagelab/quack", ref = "ranger")
 ```
 Depending on your internet speed and packages already installed, the installation may take up to 10 minutes. 
 
@@ -62,7 +62,7 @@ The runtime varies depending on the size of your network. This will generate an 
 
 `trainModel()` example:
 ```r
-trainModel("~/data/output/InWeb3.RData", "~/data/stringent835Pathways.RData", "~/data/output")
+trainModel("~/data/output/InWeb3.RData", "~/data/stringent853Pathways.RData", "~/data/output")
 ```
 
 The runtime varies depending on the size of the network and the number of pathways. Parallel computing is highly recommended, and the runtime may take more than 12 hours on a normal computer. This will generate an RData file in the name of QuackGeneModel_Quackv1.3 - `usr_network_name` - General - `usr_pathway_file`.
@@ -72,7 +72,7 @@ The runtime varies depending on the size of the network and the number of pathwa
 
 `quackPrediction()` example:
 ```r
-quackPrediction("InWeb3", "~/data/SandersGenes.txt", "~/data/output/InWeb3.RData", "QuackGeneModel_Quackv1.3-InWeb3-General853StringentPathways.RData", "~/data/output", "~/data/stringent835Pathways.RData")
+quackPrediction("InWeb3", "~/data/SandersGenes.txt", "~/data/output/InWeb3.RData", "QuackGeneModel_Quackv1.3-InWeb3-General853StringentPathways.RData", "~/data/output", "~/data/stringent853Pathways.RData")
 ```
 
 The runtime varies depending on the size of seed genes and may exceed 10 minutes. This will generate a text file in the name of `usr_seed_file` - `usr_network_name` - QuackPredictions.
