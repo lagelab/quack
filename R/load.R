@@ -164,7 +164,7 @@ getConnectivityInfoForPathwayList <- function(phash){
   r <- foreach(i         = 1:upperBound,
                .combine  = 'rbind',
                .export   = ls(envir=globalenv()),
-               .packages = c("hash","igraph"),
+               .packages = c("hash", "igraph", "quack"),
                .options.snow = opts) %dopar% {
 
                    pathway <- PathwayList[i]
@@ -253,7 +253,7 @@ GetQuackModelingFile <- function(genesetHash,inSamplePathways, logOn=TRUE,stepSi
   r <- foreach(i = 1:upperBound,
 #               .combine  = 'rbind',
                .export=ls(envir=globalenv()),
-               .packages=c("hash","igraph","pROC"),
+               .packages=c("hash","igraph","pROC","quack"),
                .options.snow = opts) %dopar% {
 
                thisPathwayRow <- inSamplePathways[i,]
