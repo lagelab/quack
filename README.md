@@ -29,6 +29,7 @@ boot 1.3-20
 changepoint 2.2.2
 data.table 1.10.4-3
 doMC 1.3.5
+doSNOW 1.0.16
 doParallel 1.0.11
 dplyr 0.7.4
 entropy 1.2.1
