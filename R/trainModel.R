@@ -10,7 +10,7 @@
 trainModel <- function(usr_modeling_file, usr_pathway_file, usr_output_loc, num_cores=4){
 
   if(!dir.exists(usr_output_loc)) stop("Output directory does not exist")
-  if(!file.exists(usr_modeling)) stop("Network file does not exist")
+  if(!file.exists(usr_modeling_file)) stop("Network file does not exist")
   if(!dir.exists(usr_pathway_file)) stop("Pathway file does not exist")
 
   ### Register doParallel parallel backend
