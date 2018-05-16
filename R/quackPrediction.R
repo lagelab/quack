@@ -239,7 +239,7 @@ quackPrediction <- function(usr_network_name, usr_seed_file, trained_network_fil
 
   splitHoldoutForAUC <- function(holdoutFile, model, response, predList){
 
-    tempP <- predict(model,newdata = holdoutFile[,c(predList,response)],type = "prob")
+    tempP <- predict(model, data=holdoutFile[,c(predList)],type = "prob")
     probIsPathway <- tempP$predictions[,2]
     holdoutFile$QuackP <- probIsPathway
 
