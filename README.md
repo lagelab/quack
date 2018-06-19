@@ -41,7 +41,7 @@ mclust 5.4
 poweRlaw 0.70.1
 pROC 1.10.0
 randomForest 4.6-12
-ranger 0.9
+ranger 0.9.0
 stringr 1.2.0
 ```
 
