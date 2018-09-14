@@ -710,11 +710,11 @@ splitHoldoutForAUC <- function(holdoutFile, model, response, predList){
 #  response <- "isInPathway"
 #  predList <- predictorList
 
-#  tempP <- predict(model,newdata = holdoutFile[,c(predList,response)],type = "prob")
+  #Probably should use line below, but who knows where else this sub gets called onto
+#  tempP <- predict(model, data = holdoutFile[,c(predList)])
   tempP <- predict(model, data = holdoutFile[,c(predList,response)])
 
-#  probIsPathway <- tempP[,2]
-  probIsPathway <- tempP$predictions[,2]
+  probIsPathway <- tempP$predictions[,2] # 1: not in pathway, 2: in pathway
 
   holdoutFile$QuackP <- probIsPathway
 

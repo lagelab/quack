@@ -50,7 +50,6 @@ quackPrediction <- function(usr_network_name, usr_seed_file, trained_network_fil
 
   CalculateModelingFile <- function(pathwayGeneSymbols, graph, QuackModel){
     otherFile <- NULL
-    #downSampleSize <- 200
     modelingFile <- data.frame()
     pathwayConnectivityInfo <- getConnectivityInfo(pathwayGeneSymbols)
     thisPathwayData <- computeStatsForAllConnectedNodes(pathwayGeneSymbols,
@@ -72,14 +71,10 @@ quackPrediction <- function(usr_network_name, usr_seed_file, trained_network_fil
 
     otherObs <- data.frame()
     if( rowsUnc > 0 && rowsUnv > 0 ){
-      #unconnectedDF$pathway <- pathway
-      #uncoveredDF$pathway <- pathway
       otherObs <- rbind(unconnectedDF,uncoveredDF)
     }else if ( rowsUnc > 0 && ! (rowsUnv > 0) ){
-      #unconnectedDF$pathway <- pathway
       otherObs <- unconnectedDF
     }else if (! (rowsUnc > 0) && rowsUnv > 0 ){
-      #uncoveredDF$pathway <- pathway
       otherObs <- uncoveredDF
     }
 
@@ -129,8 +124,7 @@ quackPrediction <- function(usr_network_name, usr_seed_file, trained_network_fil
     return(modelingFile)
   }
 
-
-  computeStatsForAllConnectedNodes <- function(inSymbols,downSampleFlag,usePathwaySize,multFactor,sampleSize){
+  computeStatsForAllConnectedNodes <- function(inSymbols, downSampleFlag, usePathwaySize, multFactor, sampleSize){
 
     allIndices <- getGeneIndices(inSymbols)
     connectedIndices <- getConnectedGeneIndices(inSymbols)
@@ -266,33 +260,21 @@ quackPrediction <- function(usr_network_name, usr_seed_file, trained_network_fil
     return (c(list(con), list(conAndUnc), list(conAndUncAndUncv)))
   }
 
-  #splitFile <- splitTrainingAndHoldout(modelingFile, 0.7, byPathway = T)
-  #modelingFile.holdout <- splitFile[[1]]
-
-  #pathways <- c()
-  #aucs <- c()
-
   allIndices <- getGeneIndices(seed)
-  # allNeighbors <- c()
-  # for(index in allIndices){
-  #   allNeighbors <- c(allNeighbors, as.numeric(neighbors(g, index)))
-  # }
-  # allNeighbors <- unique(allNeighbors)
-  # allGenes <- c(V(g)$label[allNeighbors], seed)
+
   this.modelingFile <- CalculateModelingFile(seed)
 
   holdoutsForAUCs <- splitHoldoutForAUC(this.modelingFile, QuackGeneModel, "isInPathway", predictorList)
   aucFile <- holdoutsForAUCs[[1]]
-
+  
   score.file <- subset(aucFile, !gi == -1)
   score.file$Gene <- V(g)$label[score.file$gi]
   score.file$Seed <- ifelse(score.file$Gene%in%seed, 1, 0)
   score.file <- score.file[order(-score.file$QuackP),]
-  score.file <- subset(score.file, Seed == 0 & !QuackP == 0)
+  #  score.file <- subset(score.file, Seed == 0 & !QuackP == 0)
   score.file <- score.file[,c('Gene', 'QuackP')]
 
   ### Save quack predicted genen list as text file
   write.table(score.file, file = paste0(usr_output_loc, seed.name, networkKey, 'QuackPredictions.txt'),
               sep = '\t', row.names = F, col.names = T, quote = F)
-
 }
